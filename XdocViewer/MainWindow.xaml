@@ -1,0 +1,141 @@
+﻿<Window x:Class="XdocViewer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:XdocViewer"
+        mc:Ignorable="d"
+        Title="{Binding FileName, StringFormat=X-View 1.0 {0}}" Height="600" Width="800" Cursor="{Binding Cursor}" Icon="XMLFile_828.ico" Closing="Window_Closing">
+
+    <Window.DataContext>
+        <local:XDocViewModel/>
+    </Window.DataContext>
+    <DockPanel>
+
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar>
+                <Button Command="{Binding Open}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="Images/OpenFileDialog_692.png"/>
+                        <TextBlock Margin="5,0">Open</TextBlock>
+                    </StackPanel>
+                </Button>
+                <Button Command="{Binding Save}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="Images/Save_6530.png"/>
+                        <TextBlock Margin="5,0">Save</TextBlock>
+                    </StackPanel>
+                </Button>
+                <Button Command="{Binding SaveAs}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="Images/Save_6530.png"/>
+                        <TextBlock Margin="5,0">Save As</TextBlock>
+                    </StackPanel>
+                </Button>
+            </ToolBar>
+            <ToolBar>
+                <Button  Command="{Binding Copy}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="Images/Copy_6524.png"/>
+                        <TextBlock Margin="5,0">Copy All</TextBlock>
+                    </StackPanel>
+                </Button>
+                <Button  Command="{Binding PasteAndFormat}" ToolTip="Paste and Format as XML/HTML">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="Images/Paste_6520.png"/>
+                        <TextBlock Margin="5,0">Paste Format</TextBlock>
+                    </StackPanel>
+                </Button>
+                <Button  Command="{Binding Paste}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="Images/Paste_6520.png"/>
+                        <TextBlock Margin="5,0">Paste</TextBlock>
+                    </StackPanel>
+                </Button>
+            </ToolBar>
+            <ToolBar ToolTip="Appearance">
+                <Button  Command="{Binding FlipColourScheme}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="Images/AlphaChannel_16xLG.png"/>
+                        <TextBlock Margin="5,0">Flip Colours</TextBlock>
+                    </StackPanel>
+                </Button>
+                <Button  Command="{Binding SetFontSmall}" ToolTip="Make Font Size Smaller">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="Images/toggle_16xSM.png"/>
+                        <TextBlock Margin="5,0">Smaller Font</TextBlock>
+                    </StackPanel>
+                </Button>
+                <Button  Command="{Binding SetFontMedium}" ToolTip="Make Font Size Default">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="Images/toggle_16xMD.png"/>
+                        <TextBlock Margin="5,0">Default Font</TextBlock>
+                    </StackPanel>
+                </Button>
+                <Button  Command="{Binding SetFontLarge}" ToolTip="Make Font Size Larger">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="Images/toggle_16xLG.png"/>
+                        <TextBlock Margin="5,0">Larger Font</TextBlock>
+                    </StackPanel>
+                </Button>
+            </ToolBar>
+            <ToolBar>
+                <TextBox MinWidth="80" Margin="1" Text="{Binding SearchTerm, Mode=TwoWay}">
+                    <TextBox.Background>
+                        <VisualBrush Opacity="0.5"  Stretch="None">
+                            <VisualBrush.RelativeTransform>
+                                <TransformGroup>
+                                    <ScaleTransform CenterY="0.5" CenterX="0.5" ScaleX="1.0" ScaleY="1.0"/>
+                                </TransformGroup>
+                            </VisualBrush.RelativeTransform>
+                            <VisualBrush.Visual>
+                                <TextBlock FontStretch="Expanded" FontWeight="Bold" FontSize="18" Foreground="LightBlue">Search</TextBlock>
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </TextBox.Background>
+                </TextBox>
+                <Button Command="{Binding Search}">
+                    <Image Source="Images/search_glyph.png"/>
+                </Button>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="{Binding SearchResultIndex}"/>
+                    <TextBlock Margin="2,0" VerticalAlignment="Center">|</TextBlock>
+                    <TextBlock VerticalAlignment="Center" Text="{Binding SearchResultCount}"/>
+                </StackPanel>
+                <TextBox MinWidth="80" Margin="1" Text="{Binding ReplaceTerm, Mode=TwoWay}">
+                    <TextBox.Background>
+                        <VisualBrush Opacity="0.5"  Stretch="None">
+                            <VisualBrush.RelativeTransform>
+                                <TransformGroup>
+                                    <ScaleTransform CenterY="0.5" CenterX="0.5" ScaleX="1.0" ScaleY="1.0"/>
+                                </TransformGroup>
+                            </VisualBrush.RelativeTransform>
+                            <VisualBrush.Visual>
+                                <TextBlock FontStretch="Expanded" FontWeight="Bold" FontSize="18" Foreground="LightCoral">Replace</TextBlock>
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </TextBox.Background>
+                </TextBox>
+                <Button Command="{Binding Replace}">Replace Next</Button>
+            </ToolBar>
+        </ToolBarTray>
+        <ToolBarTray DockPanel.Dock="Right"></ToolBarTray>
+        <StatusBar   DockPanel.Dock="Bottom" Height="25">
+            <StatusBarItem Content="{Binding Status}"></StatusBarItem>
+            <StatusBarItem HorizontalContentAlignment="Right">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="5,0">Changed?</TextBlock>
+                    <CheckBox  IsChecked="{Binding IsChanged}" IsEnabled="False"></CheckBox>
+                </StackPanel>
+            </StatusBarItem>
+        </StatusBar>
+        <Grid>
+            <ScrollViewer ScrollViewer.CanContentScroll="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                <TextBox x:Name="txtMain" Padding="5"  FontFamily="Consolas" Background="{Binding Background}" Foreground="{Binding Foreground}" FontSize="{Binding FontSize}" Text="{Binding XML}" SelectionChanged="txtMain_SelectionChanged" TextChanged="txtMain_TextChanged" AcceptsReturn="True" AcceptsTab="True" AutoWordSelection="True" BorderThickness="2" BorderBrush="#FFBEBFC3" TextOptions.TextHintingMode="Animated" TextOptions.TextFormattingMode="Display">
+                    
+                </TextBox>
+            </ScrollViewer>
+        </Grid>
+
+    </DockPanel>
+</Window>
